@@ -1,0 +1,33 @@
+{
+  "name": "weathersense-spa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "browserslist": [
+    "last 1 Edge version",
+    "last 1 Chrome version",
+    "last 1 Firefox version"
+  ],
+  "dependencies": {
+    "@azure/msal-browser": "^2.7.0",
+    "@azure/storage-blob": "^12.3.0",
+    "bootstrap": "^4.5.3",
+    "d3": "^6.2.0",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
+    "vue": "^2.6.12",
+    "vue-bootstrap-datetimepicker": "^5.0.1"
+  },
+  "alias": {
+    "vue": "./node_modules/vue/dist/vue.esm.browser.js"
+  },
+  "devDependencies": {
+    "cssnano": "^4.1.10"
+  }
+}
