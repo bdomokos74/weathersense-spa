@@ -1,23 +1,5 @@
 const d3 = require("d3");
 
-var sensors = ["BME280-1", "DALLAS1"];
-let getFormattedDate = function(d) {
-    return d.getFullYear()+""+(d.getMonth()+1)+""+("0" + d.getDate()).slice(-2);
-  }
-
-function getParams() {
-    let d = $('#picker').datepicker('getDate');
-    let formattedDate = getFormattedDate(d);
-    let s = $("#sensor").val();
-    let m = $("#meas").val();
-    return {
-      "sensor": s,
-      "date": formattedDate,
-      "meas": m
-    }
-  }
-
-  
 function getExtent(data, fn) {
     let result;
     for (var key in data) {
@@ -33,6 +15,7 @@ function getExtent(data, fn) {
     }
     return result;
 }
+
 function getMin(data, fn) {
     let result;
     for (var key in data) {
@@ -61,14 +44,14 @@ function getMax(data, fn) {
     }
     return result;
 }
-function fillGap(data) {
+
+function fillGap(data, delta=60*15*1000) {
     // TODO make more general
-    n = data.length;
-    filled = [];
-    delta =  60*15*1000;
+    let n = data.length;
+    let filled = [];
     filled.push(data[0]);
-    curr = data[1].ts;
-    prev = data[0].ts;
+    let curr = data[1].ts;
+    let prev = data[0].ts;
     for(let i = 1; i<n; i++) {
         curr = data[i].ts;
         prev = data[i-1].ts;
@@ -100,18 +83,15 @@ function draw(rawData, params) {
 
     if(params!==undefined &&params.meas!==undefined) {
         if(params.meas==='pressure') {
-            measFn = (d) => d.pressure;
-            doFill = false;
+            measFn = (d) => d.pressure;            
             title = "Pressure (hPa)"
         } else if(params.meas==='humidity') { 
             measFn = (d) => d.humidity;
-            doFill = false;
             title="Humidity (%)";
         }
     }
     
     let data = filterMissing(rawData, measFn);
-    //window.data = data;
 
     let svg = d3.select("#chart"),
         margin = {top: 15, bottom: 15, left: 85, right: 0},
