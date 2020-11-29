@@ -9,8 +9,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
 import {authInit, login, logout} from './auth';
-import {draw} from './measchart';
-import {getFormattedDate} from './util';
+import {draw, getStats} from './measchart';
+import {getFormattedDate, getTodayGMT} from './util';
 import {getData} from './blob';
 
 import Vue from 'vue';
@@ -32,12 +32,13 @@ var app = new Vue({
           {id: "sensor1", name:"BME280-1"},
           {id: "sensor2", name:"DALLAS1"}
         ],
+        stats: {},
         selectedSensors: [],
         selectedDate: "",
         selectedMeas: "temperature",
         datepickerOptions: {
           format: 'YYYYMMDD',
-          defaultDate: 'now',
+          defaultDate: getFormattedDate(getTodayGMT()),
         }
     },
     beforeMount: function() {
@@ -60,7 +61,8 @@ var app = new Vue({
         this.refresh();
       },
       async homeClicked() {
-        this.selectedDate = getFormattedDate(new Date());
+        // TODO - data is GMT
+        this.selectedDate = getFormattedDate(getTodayGMT());
         this.refresh()
       },
       search() {
@@ -75,6 +77,9 @@ var app = new Vue({
       async refresh() {
           console.log("refresh:", this.user, this.selectedDate);
           this.data = await getData(this.user.accountId, this.selectedDate, this.sensors);
+          this.stats = getStats(this.data);
+          window.stats = this.stats;
+          window.data = this.data;
           draw(this.data, {date:this.selectedDate, meas: this.selectedMeas});
       },
       selectMeas: function() {

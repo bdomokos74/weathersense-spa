@@ -1,4 +1,5 @@
 const d3 = require("d3");
+import {getFormattedDate, getTodayGMT} from './util';
 
 function getExtent(data, fn) {
     let result;
@@ -93,6 +94,7 @@ function draw(rawData, params) {
     
     let data = filterMissing(rawData, measFn);
 
+    console.log("filtered", data);
     let svg = d3.select("#chart"),
         margin = {top: 15, bottom: 15, left: 85, right: 0},
         width = +svg.attr("width") - margin.left - margin.right,
@@ -101,10 +103,10 @@ function draw(rawData, params) {
     svg.selectAll("*").remove();
 
     if (!data || data.length === 0) return;
-    
+    let timeExtent = getExtent(data, d => d.ts);
     let x = d3.scaleTime()
         .range([margin.left, width - margin.right])
-        .domain(getExtent(data, d => d.ts));
+        .domain(timeExtent).nice();
 
     let scaleY = d3.scaleLinear();
     
@@ -139,7 +141,7 @@ function draw(rawData, params) {
 
     let line = d3.line()
         // .curve(d3.curveCardinal)
-        .defined(d => !isNaN(measFn(d)))
+        .defined(d => !isNaN(measFn(d))) // to show gap in the places, where no data is available
         .x(d => x(d.ts))
         .y(d => y(measFn(d)));
 
@@ -154,6 +156,57 @@ function draw(rawData, params) {
             cnt += 1;
         }
     }
+
+    // show current time
+    let currTime = new Date();
+    let currX = x(currTime);
+    // TODO this offset is because the data has GMT timestamp. Fix the data.
+    let lastDateStr = getFormattedDate(new Date(timeExtent[1]));
+    let currDateStr = getFormattedDate(getTodayGMT());
+    console.log(lastDateStr, currDateStr);
+    if(lastDateStr === currDateStr) {
+        svg
+        .append('line')
+        .attr('x1', currX)
+        .attr('y1', height - margin.top)
+        .attr('x2', currX)
+        .attr('y2', 0 + margin.top)
+        .style("stroke-width", 0.5)
+        .style("stroke", "lightgreen")
+        .style("fill", "none");
+
+        let cnt = 1;
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) { 
+                let timeseries = data[key];
+                let timePoint = timeseries[timeseries.length-1];
+                svg.append('circle')
+                    .attr('cx', x(timePoint.ts))
+                    .attr('cy', y(measFn(timePoint)))
+                    .attr('r', 4)
+                    .attr('class', "circle m"+cnt);
+                cnt+=1;
+            }
+        }
+    }
+}
+function getStats(data) {
+    let result = {};
+    const fmt = d3.timeFormat("%H:%M:%S");
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            let stat = {};
+            let sensorData = data[key];
+            let idx = d3.minIndex(sensorData, (d)=>d.temperature);
+            stat['temp-min'] = sensorData[idx].temperature;
+            stat['temp-min-time'] = fmt(sensorData[idx].ts);
+            idx = d3.maxIndex(sensorData, (d)=>d.temperature);
+            stat['temp-max'] = sensorData[idx].temperature;
+            stat['temp-max-time'] = fmt(sensorData[idx].ts);
+            result[key] = stat;
+        }
+    }
+    return result;
 }
 
-export {draw};
+export {draw, getStats};

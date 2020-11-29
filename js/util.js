@@ -1,10 +1,10 @@
 const d3 = require("d3");
-
-var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S");
+window.d3 = d3;
+var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S %Z");
 function createItem(row) {
     let arr = row.split(",");
     let result = {
-    "ts":parseTime(arr[0].split(".")[0]), 
+    "ts":parseTime(arr[0].split(".")[0]+" +00"), 
     "temperature":undefined, 
     "pressure":undefined, 
     "humidity":undefined
@@ -27,4 +27,7 @@ function getFormattedDate(date) {
     return formatDate(date);
   };
 
-export {createItem, getFormattedDate};
+  function getTodayGMT() {
+      return new Date(new Date().getTime()-1000*60*60);
+  }
+export {createItem, getFormattedDate, getTodayGMT};

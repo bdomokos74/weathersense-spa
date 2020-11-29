@@ -42,4 +42,16 @@
     stroke: orange;
     stroke-width: 2px;
   }
-  
+
+  .circle.m1 {
+    fill: steelblue;
+    /* stroke-width: 2px; */
+  }
+  .circle.m2 {
+    fill: orange;
+    /* stroke-width: 2px; */
+  }
+
+  .statbox {
+    max-width: 80px;
+  }

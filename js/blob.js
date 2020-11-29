@@ -1,6 +1,6 @@
 
 //const { BlobServiceClient, TokenCredential } = require("@azure/storage-blob");
-import {getFormattedDate, createItem} from './util';
+import {getFormattedDate, createItem, getTodayGMT} from './util';
 import {getToken} from './auth';
 
 function createOptions(token) {
@@ -31,7 +31,7 @@ async function readBlob(sensor, date, token) {
 async function getData (accountId, measDate, sensors) {
     console.log("getdate: measdate", measDate);
     if(!measDate) {
-      measDate = getFormattedDate(new Date());
+      measDate = getFormattedDate(getTodayGMT());
       console.log("getdate: measdate2", measDate);
     }
 
@@ -43,8 +43,9 @@ async function getData (accountId, measDate, sensors) {
         try {
           const rawData = await readBlob(sensor, measDate, token);
           const rows = rawData.split("\n");
-          let data = rows.map(createItem);
-          console.log("got response", rows[rows.length-1], data);
+          let data = rows.map(createItem).filter( d=> d.ts);
+          console.log("got response", rows[rows.length-1]);
+          console.log("last: ",data[data.length-1]);
           results[sensor] = data;
         } catch(err) {
             console.log(`error while fetching: ${sensor}, ${measDate}`, err);
