@@ -79,7 +79,7 @@ function filterMissing(data, measFn) {
 
 function draw(rawData, params) {
     console.log("drawing: ", params);
-    let title = "Temperature (C)";
+    let title = "Temperature (C&#176;)";
     let measFn = (d) => d.temperature;
 
     if(params!==undefined &&params.meas!==undefined) {
@@ -95,7 +95,7 @@ function draw(rawData, params) {
     let data = filterMissing(rawData, measFn);
 
     console.log("filtered", data);
-    let svg = d3.select("#chart"),
+    let svg = d3.select("svg.chart"),
         margin = {top: 15, bottom: 15, left: 85, right: 0},
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
