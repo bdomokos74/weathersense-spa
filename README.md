@@ -2,6 +2,8 @@
 
 This component reads the data from Azure Blob, and displays it in a vue.js SPA
 
+![Weathersense Components](doc/weathersense-components.png?raw=true "Weathersense Components") 
+
 ### Other components
 * https://github.com/bdomokos74/weathersense-device - send sensor data from Arduino, RasPi, ... to Azure IoT HUB
 
