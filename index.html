@@ -79,10 +79,11 @@
             <svg class="chart" width="1000" height="750"></svg>
           </div>
           <div class="col col-sm ">
-            <div class="form-group statbox" v-for="sensor in sensors" v-if="stats[sensor.name]">
-              <span class="badge badge-secondary">{{ sensor.name }}</span>
-              <span class="badge badge-info">{{ stats[sensor.name]["temp-min-time"] }} {{ stats[sensor.name]["temp-min"] }}C&#176;</span>
-              <span class="badge badge-warning">{{ stats[sensor.name]["temp-max-time"] }} {{ stats[sensor.name]["temp-max"] }}C&#176;</span>
+            <div class="form-group statbox" v-for="(sensor, index) in sensors" v-if="stats[sensor.name]" >
+              <span class="badge" :class="'badge-sensor'+(index+1)" >{{ sensor.name }}</span>
+              <span class="badge" :class="'badge-sensor'+(index+1)">{{ stats[sensor.name]["temp-curr"] }}&#176;C {{ stats[sensor.name]["temp-curr-time"] }}</span>
+              <span class="badge badge-low">Low {{ stats[sensor.name]["temp-min"] }}&#176;C {{ stats[sensor.name]["temp-min-time"] }}</span>
+              <span class="badge badge-hi">High {{ stats[sensor.name]["temp-max"] }}&#176;C {{ stats[sensor.name]["temp-max-time"] }}</span>
             </div>
           </div>
         </div>

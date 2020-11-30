@@ -79,7 +79,7 @@ function filterMissing(data, measFn) {
 
 function draw(rawData, params) {
     console.log("drawing: ", params);
-    let title = "Temperature (C&#176;)";
+    let title = "Temperature (°C)";
     let measFn = (d) => d.temperature;
 
     if(params!==undefined &&params.meas!==undefined) {
@@ -203,6 +203,9 @@ function getStats(data) {
             idx = d3.maxIndex(sensorData, (d)=>d.temperature);
             stat['temp-max'] = sensorData[idx].temperature;
             stat['temp-max-time'] = fmt(sensorData[idx].ts);
+            idx = sensorData.length-1;
+            stat['temp-curr'] = sensorData[idx].temperature;
+            stat['temp-curr-time'] = fmt(sensorData[idx].ts);
             result[key] = stat;
         }
     }

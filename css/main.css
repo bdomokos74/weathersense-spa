@@ -31,27 +31,47 @@
     stroke: steelblue;
     stroke-width: 2px;
   }
-  
+  /* ["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd","#fddaec","#f2f2f2"] 
+  ["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]
+  */
   .line.m1 {
     fill: none;
-    stroke: steelblue;
+    stroke: #fbb4ae;
     stroke-width: 2px;
   }
   .line.m2 {
     fill: none;
-    stroke: orange;
+    stroke: #b3cde3;
     stroke-width: 2px;
   }
 
   .circle.m1 {
-    fill: steelblue;
+    fill: #fbb4ae;
     /* stroke-width: 2px; */
   }
   .circle.m2 {
-    fill: orange;
+    fill: #b3cde3;
     /* stroke-width: 2px; */
   }
 
   .statbox {
     max-width: 80px;
+  }
+
+  .badge-sensor1 {
+    background-color: #fbb4ae;
+  }
+
+  .badge-sensor2 {
+    background-color: #b3cde3;
+  }
+
+  .badge-curr {
+    background-color: #ffdd93;
+  }
+  .badge-low {
+    background-color: #ccebc5;
+  }
+  .badge-hi {
+    background-color: #ffed6f;
   }

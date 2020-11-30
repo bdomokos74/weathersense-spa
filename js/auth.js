@@ -12,6 +12,7 @@ const msalConfig = {
         clientId: "d38c37e3-87a4-45d7-81b5-69fb388bf73a",
         //authority: "https://login.microsoftonline.com/common",
         authority: "https://login.microsoftonline.com/d1756ea2-2803-4365-8987-9bd9a3829494",
+        //redirectUri: "http://localhost:1234"
         redirectUri: "https://weathersensegui.z6.web.core.windows.net/",
         //postLogoutRedirectUri: "https://weathersensegui.z6.web.core.windows.net/"
     },
