@@ -21,7 +21,7 @@ async function readBlob(sensor, date, token) {
     const url = `https://weathersenseblob.blob.core.windows.net/weathersense-data/meas-${sensor}-${date}.txt`;
     try {
         let resp = await fetch(url, options);
-        return await resp.text();
+        return await resp;
     } catch(err) {
         console.log("failed to fetch "+url);
     }
@@ -41,12 +41,15 @@ async function getData (accountId, measDate, sensors) {
     for(let i = 0; i<sensors.length; i++) {            
         let sensor = sensors[i].name;
         try {
-          const rawData = await readBlob(sensor, measDate, token);
-          const rows = rawData.split("\n");
-          let data = rows.map(createItem).filter( d=> d.ts);
-          console.log("got response", rows[rows.length-1]);
-          console.log("last: ",data[data.length-1]);
-          results[sensor] = data;
+          const resp = await readBlob(sensor, measDate, token);
+          if(resp.ok) {
+            const rawData = await resp.text();
+            const rows = rawData.split("\n");
+            let data = rows.map(createItem).filter( d=> d.ts);
+            console.log("got response", rows[rows.length-1]);
+            console.log("last: ",data[data.length-1]);
+            results[sensor] = data;
+          }
         } catch(err) {
             console.log(`error while fetching: ${sensor}, ${measDate}`, err);
         };
@@ -65,7 +68,8 @@ async function getData (accountId, measDate, sensors) {
     let data = [];
     for(let i = 0; i<7; i++) {
         let measDate = getFormattedDate(new Date(y, m, d+i));
-        data.push( readBlob(sensor, measDate, token));
+        const resp = readBlob(sensor, measDate, token);
+        data.push( resp.text() );
     }
     let rawData = (await Promise.all(data)).join('');
     const rows = rawData.split("\n");

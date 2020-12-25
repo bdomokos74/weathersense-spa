@@ -66,15 +66,17 @@ function fillGap(data, delta=60*15*1000) {
 }
 function filterMissing(data, measFn) {
     let result = {};
+    let keys = []
     for (var key in data) {
         if (data.hasOwnProperty(key)) { 
             let filtered = data[key].filter(d => (measFn(d)!=="" && measFn(d)!==undefined && measFn(d)!==null));
             if(filtered.length>1) {
                 result[key] = fillGap(filtered);    
+                keys.push(key);
             }
         }
     }
-    return result;
+    return [result, keys];
 }
 
 function draw(rawData, params) {
@@ -92,8 +94,8 @@ function draw(rawData, params) {
         }
     }
     
-    let data = filterMissing(rawData, measFn);
-
+    let [data, keys] = filterMissing(rawData, measFn);
+    
     console.log("filtered", data);
     let svg = d3.select("svg.chart"),
         margin = {top: 15, bottom: 15, left: 85, right: 0},
@@ -102,7 +104,11 @@ function draw(rawData, params) {
 
     svg.selectAll("*").remove();
 
-    if (!data || data.length === 0) return;
+    if(keys.length===0) {
+        console.log("No data");
+        return;
+    }
+    
     let timeExtent = getExtent(data, d => d.ts);
     let x = d3.scaleTime()
         .range([margin.left, width - margin.right])
