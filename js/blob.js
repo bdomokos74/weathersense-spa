@@ -54,4 +54,24 @@ async function getData (accountId, measDate, sensors) {
     return results;
   };
 
-export {getData};
+  async function getWeeklyPressure(accountId, endDate) {
+    let sensor = 'BME280-1';
+    let y = Number(endDate.substr(0, 4));
+    let m = Number(endDate.substr(4, 2))-1;
+    let d = Number(endDate.substr(6, 2));
+    d -= 7;
+    const token = await getToken(accountId);
+    let results = {};
+    let data = [];
+    for(let i = 0; i<7; i++) {
+        let measDate = getFormattedDate(new Date(y, m, d+i));
+        data.push( readBlob(sensor, measDate, token));
+    }
+    let rawData = (await Promise.all(data)).join('');
+    const rows = rawData.split("\n");
+    let convData = rows.map(createItem).filter( d=> d.ts);
+    
+    results[sensor] = convData;
+    return results;
+  }
+export {getData, getWeeklyPressure};

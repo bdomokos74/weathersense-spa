@@ -22,4 +22,5 @@ az storage blob service-properties update \
     --index-document app/index.html
 
 # deploy the SPA page
-az storage blob upload-batch -s app1 -d '$web' --account-name $AZURE_STORAGE_ACCOUNT
+parcel build index.html -d app
+az storage blob upload-batch -s app -d '$web' --account-name $AZURE_STORAGE_ACCOUNT

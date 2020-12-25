@@ -11,7 +11,7 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 import {authInit, login, logout} from './auth';
 import {draw, getStats} from './measchart';
 import {getFormattedDate, getTodayGMT} from './util';
-import {getData} from './blob';
+import {getData, getWeeklyPressure} from './blob';
 
 import Vue from 'vue';
 Vue.use(datePicker);
@@ -25,6 +25,7 @@ var app = new Vue({
         measurements: [
           {id: "temperature",name: "Temperature"},
           {id: "pressure",name: "Pressure"},
+          {id: "wpressure",name: "Weekly Pressure"},
           {id: "humidity",name: "Humidity"},
           {id: "battery",name: "Battery Voltage"}
         ],
@@ -45,6 +46,7 @@ var app = new Vue({
     },
     mounted: function() {
       console.log("mounted");
+      this.selectedDate = getFormattedDate(getTodayGMT());
       authInit(this._handleLogin);
     },
     methods: {
@@ -82,9 +84,14 @@ var app = new Vue({
           window.data = this.data;
           draw(this.data, {date:this.selectedDate, meas: this.selectedMeas});
       },
-      selectMeas: function() {
-        console.log("selectMeas called:"+this.selectedMeas);
-        draw(this.data, {date:this.selectedDate, meas: this.selectedMeas});
+      async selectMeas() {
+        console.log("selectMeas called:"+this.selectedMeas+" "+this.selectedDate);
+        if(this.selectedMeas==="wpressure") {
+          let wdata = await getWeeklyPressure(this.user.accountId, this.selectedDate);
+          draw(wdata, {meas: 'pressure'});
+        } else {
+          draw(this.data, {date:this.selectedDate, meas: this.selectedMeas});
+        }
       },
   }
 });

@@ -34,6 +34,9 @@ npm install -g parcel-bundler
 ```
 parcel index.html
 ```
+Then F5 - Live server.
+Make sure when running locally, uncomment the redirect_uri=localhost... line in auth.js
+(TODO: find out how to avoid this)
 
 ### How to build/package
 ```

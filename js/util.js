@@ -30,4 +30,5 @@ function getFormattedDate(date) {
   function getTodayGMT() {
       return new Date(new Date().getTime()-1000*60*60);
   }
+
 export {createItem, getFormattedDate, getTodayGMT};
