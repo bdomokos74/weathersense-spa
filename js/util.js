@@ -7,7 +7,8 @@ function createItem(row) {
     "ts":parseTime(arr[0].split(".")[0]+" +00"), 
     "temperature":undefined, 
     "pressure":undefined, 
-    "humidity":undefined
+    "humidity":undefined,
+    "bat":undefined
     };
     if(arr.length>1 && arr[1])
         result['temperature'] = Number(arr[1]);
@@ -15,6 +16,8 @@ function createItem(row) {
         result['pressure'] = Number(arr[2]);
     if(arr.length>3 && arr[3])
         result['humidity'] = Number(arr[3]);
+    if(arr.length>4 && arr[4])
+        result['bat'] = Number(arr[4]);
     return result;
 };
 

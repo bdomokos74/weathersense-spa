@@ -91,6 +91,9 @@ function draw(rawData, params) {
         } else if(params.meas==='humidity') { 
             measFn = (d) => d.humidity;
             title="Humidity (%)";
+        } else if(params.meas==='bat') { 
+            measFn = (d) => d.bat;
+            title="Battery (V)";
         }
     }
     
@@ -108,7 +111,7 @@ function draw(rawData, params) {
         console.log("No data");
         return;
     }
-    
+
     let timeExtent = getExtent(data, d => d.ts);
     let x = d3.scaleTime()
         .range([margin.left, width - margin.right])
@@ -116,7 +119,12 @@ function draw(rawData, params) {
 
     let scaleY = d3.scaleLinear();
     
-    let yDomain = [getMin(data, measFn), getMax(data, measFn)];
+    let yDomain;
+    if(params.meas==='bat') { 
+        yDomain = [2,5];
+    } else {
+        yDomain = [getMin(data, measFn), getMax(data, measFn)];
+    }
     console.log("yDomain=", yDomain);
     let y = scaleY
         .range([height - margin.bottom, margin.top])

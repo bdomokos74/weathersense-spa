@@ -27,11 +27,12 @@ var app = new Vue({
           {id: "pressure",name: "Pressure"},
           {id: "wpressure",name: "Weekly Pressure"},
           {id: "humidity",name: "Humidity"},
-          {id: "battery",name: "Battery Voltage"}
+          {id: "bat",name: "Battery Voltage"}
         ],
         sensors: [
           {id: "sensor1", name:"BME280-1"},
-          {id: "sensor2", name:"DALLAS1"}
+          {id: "sensor2", name:"DALLAS1"},
+          {id: "sensor3", name:"ESP32-1"}
         ],
         stats: {},
         selectedSensors: [],

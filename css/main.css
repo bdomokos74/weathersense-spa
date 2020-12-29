@@ -41,7 +41,12 @@
   }
   .line.m2 {
     fill: none;
-    stroke: #b3cde3;
+    stroke: steelblue;
+    stroke-width: 2px;
+  }
+  .line.m3 {
+    fill: none;
+    stroke: #bc80bd;
     stroke-width: 2px;
   }
 
@@ -50,10 +55,13 @@
     /* stroke-width: 2px; */
   }
   .circle.m2 {
-    fill: #b3cde3;
+    fill: steelblue;
     /* stroke-width: 2px; */
   }
-
+  .circle.m3 {
+    fill: #bc80bd;;
+    /* stroke-width: 2px; */
+  }
   .statbox {
     max-width: 80px;
   }
@@ -63,7 +71,10 @@
   }
 
   .badge-sensor2 {
-    background-color: #b3cde3;
+    background-color: steelblue;
+  }
+  .badge-sensor3 {
+    background-color: #bc80bd;
   }
 
   .badge-curr {
