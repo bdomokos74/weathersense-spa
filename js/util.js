@@ -23,15 +23,15 @@ function createItem(row) {
 
 function getFormattedDate(date) {
     let formatDate = function(d) {
-        return d.getFullYear()+""+(d.getMonth()+1)+""+("0" + d.getDate()).slice(-2);
+        return d.getFullYear()+""+("0" + (d.getMonth()+1)).slice(-2)+""+("0" + d.getDate()).slice(-2);
     };
     // let d = new Date(this.selectedDate);
     console.log("date=",date);
     return formatDate(date);
-  };
+};
 
-  function getTodayGMT() {
-      return new Date(new Date().getTime()-1000*60*60);
-  }
+function getTodayGMT() {
+    return new Date(new Date().getTime()-1000*60*60);
+}
 
 export {createItem, getFormattedDate, getTodayGMT};
