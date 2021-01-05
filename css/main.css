@@ -28,7 +28,7 @@
   
   .line {
     fill: none;
-    stroke: steelblue;
+    stroke: rgb(97, 152, 198);
     stroke-width: 2px;
   }
   /* ["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd","#fddaec","#f2f2f2"] 
@@ -41,12 +41,12 @@
   }
   .line.m2 {
     fill: none;
-    stroke: steelblue;
+    stroke: rgb(97, 152, 198);
     stroke-width: 2px;
   }
   .line.m3 {
     fill: none;
-    stroke: #bc80bd;
+    stroke: #d273afcf;
     stroke-width: 2px;
   }
 
@@ -55,11 +55,11 @@
     /* stroke-width: 2px; */
   }
   .circle.m2 {
-    fill: steelblue;
+    fill: rgb(97, 152, 198);
     /* stroke-width: 2px; */
   }
   .circle.m3 {
-    fill: #bc80bd;;
+    fill: #d273afcf;;
     /* stroke-width: 2px; */
   }
   .statbox {
@@ -71,10 +71,10 @@
   }
 
   .badge-sensor2 {
-    background-color: steelblue;
+    background-color: rgb(97, 152, 198);
   }
   .badge-sensor3 {
-    background-color: #bc80bd;
+    background-color: #d273afcf;
   }
 
   .badge-curr {

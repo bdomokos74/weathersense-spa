@@ -34,6 +34,7 @@ var app = new Vue({
           {id: "sensor2", name:"DALLAS1"},
           {id: "sensor3", name:"ESP32-1"}
         ],
+        sensorIdx: {},
         stats: {},
         selectedSensors: [],
         selectedDate: "",
@@ -47,6 +48,10 @@ var app = new Vue({
     },
     mounted: function() {
       console.log("mounted");
+      let cnt = 1;
+      for( let i=0; i<this.sensors.length; i++) {
+        this.sensorIdx[this.sensors[i].name] = cnt++;
+      }
       this.selectedDate = getFormattedDate(getTodayGMT());
       authInit(this._handleLogin);
     },
@@ -66,6 +71,7 @@ var app = new Vue({
       async homeClicked() {
         // TODO - data is GMT
         this.selectedDate = getFormattedDate(getTodayGMT());
+        this.selectedMeas = "temperature";
         this.refresh()
       },
       search() {
@@ -78,21 +84,29 @@ var app = new Vue({
         await logout(this.user.accountId);
       },
       async refresh() {
+          let params = {date:this.selectedDate, meas: this.selectedMeas, sensorIdx: this.sensorIdx};
           console.log("refresh:", this.user, this.selectedDate);
           this.data = await getData(this.user.accountId, this.selectedDate, this.sensors);
-          this.stats = getStats(this.data);
+          let dispData = this.data;
+          if(this.selectedMeas==="wpressure") {
+            dispData = await getWeeklyPressure(this.user.accountId, this.selectedDate);
+            params.meas = 'pressure'
+          }
+          this.stats = getStats(dispData, params);
           window.stats = this.stats;
-          window.data = this.data;
-          draw(this.data, {date:this.selectedDate, meas: this.selectedMeas});
+          window.data = dispData;
+          draw(dispData, params);
       },
       async selectMeas() {
+        let params = {date:this.selectedDate, meas: this.selectedMeas, sensorIdx: this.sensorIdx};
         console.log("selectMeas called:"+this.selectedMeas+" "+this.selectedDate);
+        let dispData = this.data;
         if(this.selectedMeas==="wpressure") {
-          let wdata = await getWeeklyPressure(this.user.accountId, this.selectedDate);
-          draw(wdata, {meas: 'pressure'});
-        } else {
-          draw(this.data, {date:this.selectedDate, meas: this.selectedMeas});
+          dispData = await getWeeklyPressure(this.user.accountId, this.selectedDate);
+          params.meas = 'pressure'
         }
+        draw(dispData, params);
+        this.stats = getStats(this.data, params);
       },
   }
 });

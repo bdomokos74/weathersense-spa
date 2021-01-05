@@ -78,25 +78,30 @@ function filterMissing(data, measFn) {
     }
     return [result, keys];
 }
-
-function draw(rawData, params) {
-    console.log("drawing: ", params);
-    let title = "Temperature (°C)";
+function _getMeasFn(params) {
     let measFn = (d) => d.temperature;
-
+    let title = "Temperature (°C)";
+    let measUnit = "°C";
     if(params!==undefined &&params.meas!==undefined) {
         if(params.meas==='pressure') {
             measFn = (d) => d.pressure;            
-            title = "Pressure (hPa)"
+            title = "Pressure (hPa)";
+            measUnit = "hPa"
         } else if(params.meas==='humidity') { 
             measFn = (d) => d.humidity;
             title="Humidity (%)";
+            measUnit = "%";
         } else if(params.meas==='bat') { 
             measFn = (d) => d.bat;
             title="Battery (V)";
+            measUnit = "V";
         }
     }
-    
+    return [title, measFn, measUnit];
+}
+function draw(rawData, params) {
+    console.log("drawing: ", params);
+    let [title, measFn] = _getMeasFn(params);
     let [data, keys] = filterMissing(rawData, measFn);
     
     console.log("filtered", data);
@@ -121,7 +126,7 @@ function draw(rawData, params) {
     
     let yDomain;
     if(params.meas==='bat') { 
-        yDomain = [2,5];
+        yDomain = [2.,4.5];
     } else {
         yDomain = [getMin(data, measFn), getMax(data, measFn)];
     }
@@ -160,14 +165,13 @@ function draw(rawData, params) {
         .y(d => y(measFn(d)));
 
     
-    let cnt = 1;
     for (let key in data) {
         if (data.hasOwnProperty(key)) { 
+            let sensorNum = params.sensorIdx[key];
             svg.append("path")
                 .data([data[key]])
-                .attr("class", "line m"+cnt)
+                .attr("class", "line m"+sensorNum)
                 .attr("d", line);
-            cnt += 1;
         }
     }
 
@@ -189,38 +193,42 @@ function draw(rawData, params) {
         .style("stroke", "lightgreen")
         .style("fill", "none");
 
-        let cnt = 1;
         for (let key in data) {
             if (data.hasOwnProperty(key)) { 
+                let sensorNum = params.sensorIdx[key];
                 let timeseries = data[key];
                 let timePoint = timeseries[timeseries.length-1];
                 svg.append('circle')
                     .attr('cx', x(timePoint.ts))
                     .attr('cy', y(measFn(timePoint)))
                     .attr('r', 4)
-                    .attr('class', "circle m"+cnt);
-                cnt+=1;
+                    .attr('class', "circle m"+sensorNum);
             }
         }
     }
 }
-function getStats(data) {
+function getStats(data, params) {
+    let [title, measFn, measUnit] =  _getMeasFn(params);
+
     let result = {};
     const fmt = d3.timeFormat("%H:%M:%S");
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
             let stat = {};
             let sensorData = data[key];
-            let idx = d3.minIndex(sensorData, (d)=>d.temperature);
-            stat['temp-min'] = sensorData[idx].temperature;
-            stat['temp-min-time'] = fmt(sensorData[idx].ts);
-            idx = d3.maxIndex(sensorData, (d)=>d.temperature);
-            stat['temp-max'] = sensorData[idx].temperature;
-            stat['temp-max-time'] = fmt(sensorData[idx].ts);
-            idx = sensorData.length-1;
-            stat['temp-curr'] = sensorData[idx].temperature;
-            stat['temp-curr-time'] = fmt(sensorData[idx].ts);
-            result[key] = stat;
+            let idx = d3.minIndex(sensorData, measFn);
+            if(idx>0) {
+                stat['meas-min'] = measFn(sensorData[idx]);
+                stat['meas-min-time'] = fmt(sensorData[idx].ts);
+                idx = d3.maxIndex(sensorData, measFn);
+                stat['meas-max'] = measFn(sensorData[idx]);
+                stat['meas-max-time'] = fmt(sensorData[idx].ts);
+                idx = sensorData.length-1;
+                stat['meas-curr'] = measFn(sensorData[idx]);
+                stat['meas-curr-time'] = fmt(sensorData[idx].ts);
+                stat['unit'] = measUnit;
+                result[key] = stat;
+            }
         }
     }
     return result;

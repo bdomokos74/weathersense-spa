@@ -58,24 +58,35 @@ async function getData (accountId, measDate, sensors) {
   };
 
   async function getWeeklyPressure(accountId, endDate) {
-    let sensor = 'BME280-1';
-    let y = Number(endDate.substr(0, 4));
-    let m = Number(endDate.substr(4, 2))-1;
-    let d = Number(endDate.substr(6, 2));
-    d -= 7;
-    const token = await getToken(accountId);
     let results = {};
-    let data = [];
-    for(let i = 0; i<7; i++) {
-        let measDate = getFormattedDate(new Date(y, m, d+i));
-        const resp = readBlob(sensor, measDate, token);
-        data.push( resp.text() );
+    let sensors = ['BME280-1', 'ESP32-1']; // TODO find the sensors with pressure
+    for(let si = 0; si<sensors.length; si++) {
+      let sensor = sensors[si];
+      let y = Number(endDate.substr(0, 4));
+      let m = Number(endDate.substr(4, 2))-1;
+      let d = Number(endDate.substr(6, 2));
+      d -= 7;
+      const token = await getToken(accountId);
+      
+      let data = [];
+      for(let i = 0; i<7; i++) {
+          let measDate = getFormattedDate(new Date(y, m, d+i));
+          const resp = readBlob(sensor, measDate, token);
+          data.push( resp);
+      }
+      let arr = (await Promise.all(data));
+      let resps = arr.filter( curr => curr.ok);
+      let texts = [];
+      for(let i = 0; i<resps.length; i++) {
+        texts.push(await resps[i].text());
+      }
+      let rawData = texts.join("");
+      const rows = rawData.split("\n");
+      let convData = rows.map(createItem).filter( d=> d.ts);
+      
+      results[sensor] = convData;
+
     }
-    let rawData = (await Promise.all(data)).join('');
-    const rows = rawData.split("\n");
-    let convData = rows.map(createItem).filter( d=> d.ts);
-    
-    results[sensor] = convData;
     return results;
   }
 export {getData, getWeeklyPressure};

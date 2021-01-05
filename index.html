@@ -79,11 +79,11 @@
             <svg class="chart" width="1000" height="750"></svg>
           </div>
           <div class="col col-sm ">
-            <div class="form-group statbox" v-for="(sensor, index) in sensors" v-if="stats[sensor.name]" >
-              <span class="badge" :class="'badge-sensor'+(index+1)" >{{ sensor.name }}</span>
-              <span class="badge" :class="'badge-sensor'+(index+1)">{{ stats[sensor.name]["temp-curr"] }}&#176;C {{ stats[sensor.name]["temp-curr-time"] }}</span>
-              <span class="badge badge-low">Low {{ stats[sensor.name]["temp-min"] }}&#176;C {{ stats[sensor.name]["temp-min-time"] }}</span>
-              <span class="badge badge-hi">High {{ stats[sensor.name]["temp-max"] }}&#176;C {{ stats[sensor.name]["temp-max-time"] }}</span>
+            <div class="form-group statbox" v-for="(val, sensor) in stats" >
+              <span class="badge" :class="'badge-sensor'+sensorIdx[sensor]" >{{ sensor }}</span>
+              <span class="badge" :class="'badge-sensor'+sensorIdx[sensor]">{{ val["meas-curr"] }}{{val.unit}} {{ val["meas-curr-time"] }}</span>
+              <span class="badge badge-low">Low {{ val["meas-min"] }}{{ val["unit"]}} {{ val["meas-min-time"] }}</span>
+              <span class="badge badge-hi">High {{ val["meas-max"] }}{{ val["unit"]}} {{ val["meas-max-time"] }}</span>
             </div>
           </div>
         </div>
