@@ -6,3 +6,5 @@ tmp.js
 app/
 app1/
 .local.sh
+scripts/func_app_error_log.txt
+scripts/spa_token_error_log.txt

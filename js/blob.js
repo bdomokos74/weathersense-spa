@@ -2,6 +2,7 @@
 //const { BlobServiceClient, TokenCredential } = require("@azure/storage-blob");
 import {getFormattedDate, createItem, getTodayGMT} from './util';
 import {getToken} from './auth';
+const storageName = 'weathersensestorage';
 
 function createOptions(token) {
     const bearer = `Bearer ${token.accessToken}`;
@@ -18,7 +19,7 @@ function createOptions(token) {
 
 async function readBlob(sensor, date, token) {
     const options = createOptions(token);
-    const url = `https://weathersenseblob.blob.core.windows.net/weathersense-data/meas-${sensor}-${date}.txt`;
+    const url = `https://${storageName}.blob.core.windows.net/weathersense-data/meas-${sensor}-${date}.txt`;
     try {
         let resp = await fetch(url, options);
         return await resp;
