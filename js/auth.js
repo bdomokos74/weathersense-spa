@@ -84,14 +84,15 @@ async function getTokenPopup(request, account) {
     request.account = account;
     return await msalInstance.acquireTokenSilent(request).catch(async (error) => {
         console.log("silent token acquisition fails.");
-        if (error instanceof InteractionRequiredAuthError) {
+        //if (error instanceof InteractionRequiredAuthError) {
             console.log("acquiring token using popup");
             return msalInstance.acquireTokenPopup(request).catch(error => {
+                console.log("acquiring token using popup failed");
                 console.error(error);
             });
-        } else {
-            console.error(error);
-        }
+        //} else {
+        //    console.error(error);
+        //}
     });
   };
   async function login(loginHandler) {  
