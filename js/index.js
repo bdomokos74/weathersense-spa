@@ -53,7 +53,7 @@ var app = new Vue({
         this.sensorIdx[this.sensors[i].name] = cnt++;
       }
       this.selectedDate = getFormattedDate(getTodayGMT());
-      authInit(this._handleLogin);
+      authInit(this._handleLoggedin);
     },
     methods: {
       async dateChanged(attr) {
@@ -61,11 +61,21 @@ var app = new Vue({
         console.log("seldate=", this.selectedDate);
         this.refresh();
       },
-      _handleLogin(loginData) {
-        console.log("logged in: "+loginData.username);
+      _handleLoggedin(loginData) {
+        console.log("loggedin data: ", loginData);
         this.user['username'] = loginData.username;
         this.user['accountId'] = loginData.homeAccountId;
-        this.loggedInUser = loginData.username;
+        this.loggedInUser = this.user['username'];
+        //this.user['sid'] = loginData.idTokenClaims.sid;
+        this.refresh();
+      },
+      _handleLogin(loginData) {
+        console.log(loginData);
+        console.log("logged in: "+loginData.username);
+        this.user['username'] = loginData.account.username;
+        this.user['accountId'] = loginData.account.homeAccountId;
+        this.user['sid'] = loginData.idTokenClaims.sid;
+        this.loggedInUser = this.user['username'];
         this.refresh();
       },
       async homeClicked() {

@@ -9,7 +9,7 @@ import {PublicClientApplication, InteractionRequiredAuthError} from '@azure/msal
 
 const msalConfig = {
     auth: {
-        clientId: "d38c37e3-87a4-45d7-81b5-69fb388bf73a",
+        clientId: "c66d1c86-6db9-4534-999c-53c95fb6ae1a",
         //authority: "https://login.microsoftonline.com/common",
         authority: "https://login.microsoftonline.com/d1756ea2-2803-4365-8987-9bd9a3829494",
         //redirectUri: "http://localhost:1234"
@@ -21,7 +21,7 @@ const msalConfig = {
         storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
     },
     system: {	
-        loggerOptions: {	
+        loggerOptions: {
             loggerCallback: (level, message, containsPii) => {	
                 if (containsPii) {		
                     return;		
@@ -84,15 +84,16 @@ async function getTokenPopup(request, account) {
     request.account = account;
     return await msalInstance.acquireTokenSilent(request).catch(async (error) => {
         console.log("silent token acquisition fails.");
-        //if (error instanceof InteractionRequiredAuthError) {
-            console.log("acquiring token using popup");
+        if (error instanceof InteractionRequiredAuthError) {
+            console.log("InteractionRequiredAuthError: acquiring token using popup");
             return msalInstance.acquireTokenPopup(request).catch(error => {
                 console.log("acquiring token using popup failed");
                 console.error(error);
             });
-        //} else {
-        //    console.error(error);
-        //}
+        } else {
+            console.error("some other error:");
+            console.error(error);
+        }
     });
   };
   async function login(loginHandler) {  
@@ -100,7 +101,7 @@ async function getTokenPopup(request, account) {
       const loginResp = await msalInstance.loginPopup(loginRequest);
       console.log(loginResp);
       if(loginResp !== null) {
-        loginHandler(loginResp.account);
+        loginHandler(loginResp);
       }
   };
 
