@@ -34,15 +34,41 @@
   /* ["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd","#fddaec","#f2f2f2"] 
   ["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]
   */
+
+  
+  .badge-sensor1 {
+    background-color: #fbb4ae;
+  }
   .line.m1 {
     fill: none;
     stroke: #fbb4ae;
     stroke-width: 2px;
   }
+  .circle.m1 {
+    fill: #fbb4ae;
+    /* stroke-width: 2px; */
+  }
+
+
+  .badge-sensor2 {
+    background-color: rgb(97, 152, 198);
+  }
   .line.m2 {
     fill: none;
     stroke: rgb(97, 152, 198);
     stroke-width: 2px;
+  }
+  .circle.m2 {
+    fill: rgb(97, 152, 198);
+    /* stroke-width: 2px; */
+  }
+
+  .badge-sensor3 {
+    background-color: #d273afcf;
+  }
+  .circle.m3 {
+    fill: #d273afcf;;
+    /* stroke-width: 2px; */
   }
   .line.m3 {
     fill: none;
@@ -50,32 +76,29 @@
     stroke-width: 2px;
   }
 
-  .circle.m1 {
-    fill: #fbb4ae;
+  .badge-sensor4 {
+    background-color: #73d286ee;
+  }
+  .circle.m4 {
+    fill: #73d286ee;;
     /* stroke-width: 2px; */
   }
-  .circle.m2 {
-    fill: rgb(97, 152, 198);
-    /* stroke-width: 2px; */
+  .line.m4 {
+    fill: none;
+    stroke: #73d286ee;
+    stroke-width: 2px;
   }
-  .circle.m3 {
-    fill: #d273afcf;;
-    /* stroke-width: 2px; */
-  }
+
+ 
   .statbox {
     max-width: 80px;
   }
 
-  .badge-sensor1 {
-    background-color: #fbb4ae;
-  }
 
-  .badge-sensor2 {
-    background-color: rgb(97, 152, 198);
-  }
-  .badge-sensor3 {
-    background-color: #d273afcf;
-  }
+
+  
+ 
+  
 
   .badge-curr {
     background-color: #ffdd93;

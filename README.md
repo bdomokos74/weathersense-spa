@@ -46,6 +46,9 @@ parcel build index.html -d app
 ### How to deploy the SPA
 ```
 az storage blob upload-batch -s app -d '$web' --account-name $AZURE_STORAGE_ACCOUNT
+
+TODO:
+az storage blob upload-batch -s app -d '$web' --account-name $AZURE_STORAGE_ACCOUNT_TEST
 ```
 
 ### Notes

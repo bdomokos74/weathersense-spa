@@ -32,7 +32,8 @@ var app = new Vue({
         sensors: [
           {id: "sensor1", name:"BME280-1"},
           {id: "sensor2", name:"DALLAS1"},
-          {id: "sensor3", name:"ESP32-1"}
+          {id: "sensor3", name:"ESP32-1"},
+          {id: "sensor4", name:"DOIT1"}
         ],
         sensorIdx: {},
         stats: {},
