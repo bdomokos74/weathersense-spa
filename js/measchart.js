@@ -79,16 +79,16 @@ function filterMissing(data, measFn) {
     return [result, keys];
 }
 function _getMeasFn(params) {
-    let measFn = (d) => d.temperature;
+    let measFn = (d) => d.t1;
     let title = "Temperature (°C)";
     let measUnit = "°C";
     if(params!==undefined &&params.meas!==undefined) {
         if(params.meas==='pressure') {
-            measFn = (d) => d.pressure;            
+            measFn = (d) => d.p;            
             title = "Pressure (hPa)";
             measUnit = "hPa"
         } else if(params.meas==='humidity') { 
-            measFn = (d) => d.humidity;
+            measFn = (d) => d.h;
             title="Humidity (%)";
             measUnit = "%";
         } else if(params.meas==='bat') { 

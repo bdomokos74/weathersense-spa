@@ -1,8 +1,9 @@
 
-require('bootstrap')
+require('bootstrap');
 require("jquery");
+require('dotenv').config({ path: "../.env" });
 
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css';
 import datePicker from 'vue-bootstrap-datetimepicker';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -30,10 +31,7 @@ var app = new Vue({
           {id: "bat",name: "Battery Voltage"}
         ],
         sensors: [
-          {id: "sensor1", name:"BME280-1"},
-          {id: "sensor2", name:"DALLAS1"},
-          {id: "sensor3", name:"ESP32-1"},
-          {id: "sensor4", name:"DOIT1"}
+          {id: "sensor1", name:"DOIT2"}
         ],
         sensorIdx: {},
         stats: {},
@@ -98,13 +96,14 @@ var app = new Vue({
           let params = {date:this.selectedDate, meas: this.selectedMeas, sensorIdx: this.sensorIdx};
           console.log("refresh:", this.user, this.selectedDate);
           this.data = await getData(this.user.accountId, this.selectedDate, this.sensors);
+          console.log(this.data);
           let dispData = this.data;
           if(this.selectedMeas==="wpressure") {
             dispData = await getWeeklyPressure(this.user.accountId, this.selectedDate);
             params.meas = 'pressure'
           }
-          this.stats = getStats(dispData, params);
-          window.stats = this.stats;
+          //this.stats = getStats(dispData, params);
+          //window.stats = this.stats;
           window.data = dispData;
           draw(dispData, params);
       },

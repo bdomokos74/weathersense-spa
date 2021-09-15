@@ -1,8 +1,7 @@
 
-//const { BlobServiceClient, TokenCredential } = require("@azure/storage-blob");
 import {getFormattedDate, createItem, getTodayGMT} from './util';
 import {getToken} from './auth';
-const storageName = 'weathersensestorage';
+const storageName = process.env.AZURE_STORAGE_ACCOUNT;
 
 function createOptions(token) {
     const bearer = `Bearer ${token.accessToken}`;
@@ -28,7 +27,6 @@ async function readBlob(sensor, date, token) {
     }
 }
 
-
 async function getData (accountId, measDate, sensors) {
     console.log("getdate: measdate", measDate);
     if(!measDate) {
@@ -41,14 +39,36 @@ async function getData (accountId, measDate, sensors) {
     let results = {};
     for(let i = 0; i<sensors.length; i++) {            
         let sensor = sensors[i].name;
+        let prevId = 0
         try {
           const resp = await readBlob(sensor, measDate, token);
           if(resp.ok) {
             const rawData = await resp.text();
             const rows = rawData.split("\n");
-            let data = rows.map(createItem).filter( d=> d.ts);
-            console.log("got response", rows[rows.length-1]);
-            console.log("last: ",data[data.length-1]);
+            let data = [];
+            for(let i =0; i<rows.length; i++) {
+              let d;
+              try{
+                d = JSON.parse(rows[i]);
+                if(d.ts) {
+                  if(d.id < prevId) {
+                    // This is to counter https://github.com/bdomokos74/weathersense-device/issues/18
+                    prevId = d.id
+                    continue
+                  }
+                  let dt = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                  dt.setUTCSeconds(d.ts);
+                  d.ts = dt;
+                  data.push(d);
+                  prevId = d.id
+                }
+              }catch(err) {
+                console.log("skipping:", rows[i]);
+              }
+            }
+            //let data = rows.map((let x)=> JSON.parse(x)).filter( d=> d.ts);
+            //console.log("got response", rows[rows.length-1]);
+            //console.log("last: ",data[data.length-1]);
             results[sensor] = data;
           }
         } catch(err) {
@@ -60,7 +80,7 @@ async function getData (accountId, measDate, sensors) {
 
   async function getWeeklyPressure(accountId, endDate) {
     let results = {};
-    let sensors = ['BME280-1', 'ESP32-1']; // TODO find the sensors with pressure
+    let sensors = ['DOIT2']; // TODO find the sensors with pressure
     for(let si = 0; si<sensors.length; si++) {
       let sensor = sensors[si];
       let y = Number(endDate.substr(0, 4));

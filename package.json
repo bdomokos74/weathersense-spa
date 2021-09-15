@@ -22,7 +22,8 @@
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "vue": "^2.6.12",
-    "vue-bootstrap-datetimepicker": "^5.0.1"
+    "vue-bootstrap-datetimepicker": "^5.0.1",
+    "dotenv": "10.0.0"
   },
   "alias": {
     "vue": "./node_modules/vue/dist/vue.esm.browser.js"

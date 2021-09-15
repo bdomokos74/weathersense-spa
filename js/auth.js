@@ -9,12 +9,10 @@ import {PublicClientApplication, InteractionRequiredAuthError} from '@azure/msal
 
 const msalConfig = {
     auth: {
-        clientId: "c66d1c86-6db9-4534-999c-53c95fb6ae1a",
-        //authority: "https://login.microsoftonline.com/common",
-        authority: "https://login.microsoftonline.com/d1756ea2-2803-4365-8987-9bd9a3829494",
-        //redirectUri: "http://localhost:1234"
-        redirectUri: "https://weathersensegui.z6.web.core.windows.net/",
-        //postLogoutRedirectUri: "https://weathersensegui.z6.web.core.windows.net/"
+        clientId: 
+        process.env.CLIENT_ID,
+        authority: process.env.AUTHORITY,    
+        redirectUri: process.env.REDIRECT_URI
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
