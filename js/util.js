@@ -19,8 +19,6 @@ function getFormattedDate(date) {
     let formatDate = function(d) {
         return d.getFullYear()+""+("0" + (d.getMonth()+1)).slice(-2)+""+("0" + d.getDate()).slice(-2);
     };
-    // let d = new Date(this.selectedDate);
-    console.log("date=",date);
     return formatDate(date);
 };
 

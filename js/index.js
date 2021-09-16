@@ -4,7 +4,6 @@ require("jquery");
 require('dotenv').config({ path: "../.env" });
 
 import 'bootstrap/dist/css/bootstrap.css';
-import datePicker from 'vue-bootstrap-datetimepicker';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
@@ -14,12 +13,14 @@ import {draw, getStats} from './measchart';
 import {getFormattedDate, getTodayGMT} from './util';
 import {getData, getWeeklyPressure} from './blob';
 
-import Vue from 'vue';
-Vue.use(datePicker);
+import { createApp } from 'vue';
+import { ref } from 'vue'
+import Datepicker from 'vue3-datepicker';
 
-var app = new Vue({
-    el: '#app',
-    data : {
+const Profile = {
+    //el: '#app',
+    data() {
+      return {
         title: "WeatherSense",
         user: {},
         loggedInUser: "",
@@ -36,12 +37,13 @@ var app = new Vue({
         sensorIdx: {},
         stats: {},
         selectedSensors: [],
-        selectedDate: "",
+        selectedDate: getTodayGMT(),
         selectedMeas: "temperature",
         datepickerOptions: {
           format: 'YYYYMMDD',
           defaultDate: getFormattedDate(getTodayGMT()),
         }
+      }
     },
     beforeMount: function() {
     },
@@ -51,8 +53,12 @@ var app = new Vue({
       for( let i=0; i<this.sensors.length; i++) {
         this.sensorIdx[this.sensors[i].name] = cnt++;
       }
-      this.selectedDate = getFormattedDate(getTodayGMT());
+      this.selectedDate = getTodayGMT();//getFormattedDate(getTodayGMT());
       authInit(this._handleLoggedin);
+      this.$watch( 
+        () => this.selectedDate,
+        (newVal, oldVal) => this.dateChanged(newVal)
+      )
     },
     methods: {
       async dateChanged(attr) {
@@ -79,7 +85,7 @@ var app = new Vue({
       },
       async homeClicked() {
         // TODO - data is GMT
-        this.selectedDate = getFormattedDate(getTodayGMT());
+        this.selectedDate = getTodayGMT();
         this.selectedMeas = "temperature";
         this.refresh()
       },
@@ -93,13 +99,13 @@ var app = new Vue({
         await logout(this.user.accountId);
       },
       async refresh() {
-          let params = {date:this.selectedDate, meas: this.selectedMeas, sensorIdx: this.sensorIdx};
-          console.log("refresh:", this.user, this.selectedDate);
-          this.data = await getData(this.user.accountId, this.selectedDate, this.sensors);
+          let params = {date:getFormattedDate(this.selectedDate), meas: this.selectedMeas, sensorIdx: this.sensorIdx};
+          console.log("refresh:", this.user, getFormattedDate(this.selectedDate));
+          this.data = await getData(this.user.accountId, getFormattedDate(this.selectedDate), this.sensors);
           console.log(this.data);
           let dispData = this.data;
           if(this.selectedMeas==="wpressure") {
-            dispData = await getWeeklyPressure(this.user.accountId, this.selectedDate);
+            dispData = await getWeeklyPressure(this.user.accountId, getFormattedDate(this.selectedDate));
             params.meas = 'pressure'
           }
           //this.stats = getStats(dispData, params);
@@ -108,15 +114,19 @@ var app = new Vue({
           draw(dispData, params);
       },
       async selectMeas() {
-        let params = {date:this.selectedDate, meas: this.selectedMeas, sensorIdx: this.sensorIdx};
-        console.log("selectMeas called:"+this.selectedMeas+" "+this.selectedDate);
+        let params = {date:getFormattedDate(this.selectedDate), meas: this.selectedMeas, sensorIdx: this.sensorIdx};
+        console.log("selectMeas called:"+this.selectedMeas+" "+getFormattedDate(this.selectedDate));
         let dispData = this.data;
         if(this.selectedMeas==="wpressure") {
-          dispData = await getWeeklyPressure(this.user.accountId, this.selectedDate);
+          dispData = await getWeeklyPressure(this.user.accountId, getFormattedDate(this.selectedDate));
           params.meas = 'pressure'
         }
         draw(dispData, params);
         this.stats = getStats(this.data, params);
       },
   }
-});
+};
+
+const app = createApp(Profile);
+app.component("datepicker", Datepicker);
+app.mount("#app");

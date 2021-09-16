@@ -17,18 +17,22 @@
   "dependencies": {
     "@azure/msal-browser": "^2.7.0",
     "@azure/storage-blob": "^12.3.0",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
     "d3": "^6.2.0",
-    "jquery": "^3.5.1",
+    "dotenv": "10.0.0",
+    "jquery": "^3.6.0",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
+    "pc-bootstrap4-datetimepicker": "^4.17.51",
     "popper.js": "^1.16.1",
-    "vue": "^2.6.12",
-    "vue-bootstrap-datetimepicker": "^5.0.1",
-    "dotenv": "10.0.0"
+    "vue": "^3.2.11",
+    "vue3-datepicker": "*"
   },
   "alias": {
-    "vue": "./node_modules/vue/dist/vue.esm.browser.js"
+    "vue": "./node_modules/vue/dist/vue.esm-bundler.js"
   },
   "devDependencies": {
+    "@vue/devtools": "^v6.0.0-beta.15",
     "cssnano": "^4.1.10",
     "mocha": "8.2.1"
   }

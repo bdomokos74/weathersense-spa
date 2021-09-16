@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sensor Data</title>
   <link rel="stylesheet" href="css/main.css" />
+  <!-- uncomment for vue devtools
+  <script src="http://localhost:8098"></script>
+  -->
 </head>
 
 <body>
@@ -15,14 +18,9 @@
         <a class="navbar-brand" href="#" id="mainLabel" v-on:click="homeClicked">SensorMeas</a>
         
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <form class="form-inline">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">@</span>
-                  </div>
-              <date-picker class="form-control" v-model="selectedDate" 
-                @dp-change="dateChanged" :config="datepickerOptions"></date-picker>
-            </form>
+          
+          <li  class="nav-item" >
+              <datepicker v-model="selectedDate"></datepicker>
           </li>
           
           <li class="nav-item dropdown">
