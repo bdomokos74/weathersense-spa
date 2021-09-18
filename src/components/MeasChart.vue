@@ -59,6 +59,9 @@ export default {
                 if(this.params.meas==='temperature') {
                     yDomain[0] = Math.min(yDomain[0], 10);
                 }
+                if(this.params.meas==='pressure') {
+                    yDomain[0] = Math.min(yDomain[0], 780);
+                }
             }
             console.log("yDomain=", yDomain);
             let y = scaleY
