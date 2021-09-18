@@ -130,8 +130,6 @@ export default {
         (newVal, oldVal) => this.$emit('refresh',this.user.accountId, newVal, this.selectedMeas)
       )
     }
-
-
 }
 </script>
 
