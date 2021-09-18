@@ -32,8 +32,11 @@
     "vue": "./node_modules/vue/dist/vue.esm-bundler.js"
   },
   "devDependencies": {
+    "@parcel/transformer-vue": "^2.0.0-rc.0",
     "@vue/devtools": "^v6.0.0-beta.15",
     "cssnano": "^4.1.10",
-    "mocha": "8.2.1"
+    "mocha": "8.2.1",
+    "parcel": "*",
+    "vue-template-compiler": "^2.6.14"
   }
 }

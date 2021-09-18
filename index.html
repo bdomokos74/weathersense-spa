@@ -1,97 +1,20 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sensor Data</title>
-  <link rel="stylesheet" href="css/main.css" />
-  <!-- uncomment for vue devtools
-  <script src="http://localhost:8098"></script>
-  -->
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensor Data</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <!-- uncomment for vue devtools
+    <script src="http://localhost:8098"></script>
+    -->
+  </head>
 
-<body>
-    <div id="app">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  
-        <a class="navbar-brand" href="#" id="mainLabel" v-on:click="homeClicked">SensorMeas</a>
-        
-        <ul class="navbar-nav mr-auto">
-          
-          <li  class="nav-item" >
-              <datepicker v-model="selectedDate"></datepicker>
-          </li>
-          
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown">Sensors</a>
-            <div class="dropdown-menu">
-              <form class="form-inline">
-                <div class="form-group" v-for="sensor in sensors" :key="sensor.id">
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" v-model="selectedSensors" :value="sensor" checked>
-                    <label class="form-check-label" for="dropdownCheck">
-                      {{sensor.name}}
-                    </label>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </li>
-  
-          <li class="nav-item dropdown">
-            <form class="form-horizontal">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">Meas</span>
-                </div>
-                <select class="form-control form-control-md" id="meas" name="meas" v-model="selectedMeas" v-on:change="selectMeas">
-                  <option v-for="(meas, index) in measurements" v-bind:value="meas.id" >
-                      {{ meas.name }}
-                  </option>
-                </select>
-              </div>
-            </form>
-          </li>
-        </ul>
-  
-        <form class="form-inline">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="search">Search</button>
-        </form>
-  
-        <div class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" v-if="loggedInUser" data-toggle="dropdown">{{ loggedInUser }}</a>
-          <a class="nav-link" v-on:click="login" v-else href="#">Login</a> 
-          <div class="dropdown-menu" v-if="loggedInUser" >
-            <a class="dropdown-item" href="#" v-on:click="logout" >Logout</a>
-          </div>
-        </div>
-  
-      </nav>
-  
-      <div class="container">
-        <div class="row">
-          
-          <div class="col col-lg-auto">
-            <svg class="chart" width="1000" height="750"></svg>
-          </div>
-          <div class="col col-sm ">
-            <div class="form-group statbox" v-for="(val, sensor) in stats" >
-              <span class="badge" :class="'badge-sensor'+sensorIdx[sensor]" >{{ sensor }}</span>
-              <span class="badge" :class="'badge-sensor'+sensorIdx[sensor]">{{ val["meas-curr"] }}{{val.unit}} {{ val["meas-curr-time"] }}</span>
-              <span class="badge badge-low">Low {{ val["meas-min"] }}{{ val["unit"]}} {{ val["meas-min-time"] }}</span>
-              <span class="badge badge-hi">High {{ val["meas-max"] }}{{ val["unit"]}} {{ val["meas-max-time"] }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-     
-  </div>
-  
-  <script src="./js/index.js"></script>
-
+  <body>
+      <div id="app"></div>
+      <script src="./src/index.js" type="module" ></script>
   </body>
-  </html>
+</html>
 
 

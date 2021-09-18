@@ -5,7 +5,7 @@ function createItem(row) {
     //let arr = row.split(",");
     let result = {
     "ts": row.ts, //parseTime(arr[0].split(".")[0]+" +00"), 
-    "temperature":row.t1, 
+    "temperature":row.t2, 
     "t2": row.t2,
     "pressure":row.p, 
     "humidity":row.h,

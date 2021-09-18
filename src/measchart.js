@@ -79,7 +79,7 @@ function filterMissing(data, measFn) {
     return [result, keys];
 }
 function _getMeasFn(params) {
-    let measFn = (d) => d.t1;
+    let measFn = (d) => d.t2;
     let title = "Temperature (°C)";
     let measUnit = "°C";
     if(params!==undefined &&params.meas!==undefined) {
@@ -99,6 +99,7 @@ function _getMeasFn(params) {
     }
     return [title, measFn, measUnit];
 }
+
 function draw(rawData, params) {
     console.log("drawing: ", params);
     let [title, measFn] = _getMeasFn(params);
@@ -125,10 +126,15 @@ function draw(rawData, params) {
     let scaleY = d3.scaleLinear();
     
     let yDomain;
+
     if(params.meas==='bat') { 
         yDomain = [2.,4.5];
     } else {
         yDomain = [getMin(data, measFn), getMax(data, measFn)];
+        console.log("params.meas=", params.meas);
+        if(params.meas==='temperature') {
+            yDomain[0] = Math.min(yDomain[0], 10);
+        }
     }
     console.log("yDomain=", yDomain);
     let y = scaleY
