@@ -10,7 +10,8 @@
                 :params="params" 
                 :sensorData="sensorData"
                 :keys="keys"
-                :measFn="measFn"></meas-chart>
+                :measFn="measFn"
+                :measTitle="measTitle"></meas-chart>
             </div>
             <div class="col col-sm ">
                 <device-stat v-for="(val, sensor) in stats" :key="sensorIdx[sensor]"
@@ -51,13 +52,14 @@ export default {
             sensorData: {},
             sensors: [
                 {id: "sensor1", name:"DOIT2"},
-                //{id: "sensor1", name:"DALLAS1"}
+                {id: "sensor2", name:"CAM1"}
             ],
             sensorIdx: {},
             params: {},
             keys: [],
             measFn: undefined,
-            measUnit: undefined
+            measUnit: undefined,
+            measTitle: undefined
         }
     },
     beforeMount: function() {
@@ -77,7 +79,9 @@ export default {
       async refresh(accountId, selectedDate, selectedMeas) {
         this.params = {date:getFormattedDate(selectedDate), meas: selectedMeas, sensorIdx: this.sensorIdx};
         console.log("refresh:", this.user, getFormattedDate(selectedDate));
-        this.data = await getData(accountId, getFormattedDate(selectedDate), this.sensors);
+        let rawData = await getData(accountId, getFormattedDate(selectedDate), this.sensors);
+        //if(rawData != undefined && rawData.length>0 && rawData[0]['ts'])
+        this.data = rawData;
         console.log(this.data);
         let dispData = this.data;
         if(selectedMeas==="wpressure") {
@@ -87,7 +91,7 @@ export default {
 
         //window.data = dispData;
 
-        [title, this.measFn, this.measUnit] = this._getMeasFn();
+        [this.measTitle, this.measFn, this.measUnit] = this._getMeasFn();
 
         [this.sensorData, this.keys] = this.filterMissing(dispData, this.measFn);
         this.stats = this.getStats(this.data);
@@ -117,7 +121,7 @@ export default {
             return result;
         },
         _getMeasFn() {
-            let measFn = (d) => d.t2;
+            let measFn = (d) => d.t1;
             let title = "Temperature (°C)";
             let measUnit = "°C";
             if(this.params!==undefined &&this.params.meas!==undefined) {

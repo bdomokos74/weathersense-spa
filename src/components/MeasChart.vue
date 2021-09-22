@@ -21,7 +21,7 @@ export default {
             (newVal, oldVal) => this.draw()
         )
     },
-    props: ['sensorData', 'params', 'keys', 'measFn'],
+    props: ['sensorData', 'params', 'keys', 'measFn', 'measTitle'],
     data() {
         return {
         }
@@ -89,7 +89,7 @@ export default {
                 .attr("x", 50 - (height / 2))
                 .attr("transform", "rotate(-90)")
                 .style("text-anchor", "end")
-                .text(title);
+                .text(this.measTitle);
 
             let line = d3.line()
                 // .curve(d3.curveCardinal)

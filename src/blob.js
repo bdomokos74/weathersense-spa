@@ -56,11 +56,19 @@ async function getData (accountId, measDate, sensors) {
                     prevId = d.id
                     continue
                   }
+                  if((typeof d.ts === 'string')&&isNaN(d.ts) ) 
+                  {
+                    d.ts = Date.parse(d.ts)/1000;
+                  }
                   let dt = new Date(0); // The 0 there is the key, which sets the date to the epoch
                   dt.setUTCSeconds(d.ts);
                   d.ts = dt;
+                  if(d.t1>150) {
+                    d.t1 = d.t2;
+                  }
                   data.push(d);
                   prevId = d.id
+                
                 }
               }catch(err) {
                 console.log("skipping:", rows[i]);

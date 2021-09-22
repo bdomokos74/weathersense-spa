@@ -2,6 +2,10 @@
 
 This component reads the data from Azure Blob, and displays it in a vue.js SPA
 
+![UI Screenshot](doc/screenshot-ui.png?raw=true "screenshot") 
+
+System architecture:
+
 ![Weathersense Components](doc/weathersense-components.png?raw=true "Weathersense Components") 
 
 ### Other components
@@ -14,18 +18,14 @@ This component reads the data from Azure Blob, and displays it in a vue.js SPA
 1. Send invite in Azure Active directory
 2. Add user to the WeatherSenseReader Azure AD Group
 
-### Dependencies
+### Bundler
 
-https://parceljs.org/getting_started.html
-
-```
-npm install -g parcel-bundler
-```
+https://v2.parceljs.org
 
 ### How to run locally
 
 ```
-parcel index.html
+yarn parcel index.html
 ```
 
 Or from VS Code: F5 - Live server.
@@ -51,8 +51,8 @@ Create corresponding .env.test and .env.prod files also.
 Build for test env or prod env:
 
 ```
-NODE_ENV=test parcel build index.html -d app
-NODE_ENV=prod parcel build index.html -d app
+NODE_ENV=test yarn parcel build index.html -d app
+NODE_ENV=prod yarn parcel build index.html -d app
 ```
 
 ### How to deploy the SPA

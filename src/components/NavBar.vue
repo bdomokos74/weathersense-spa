@@ -110,6 +110,8 @@ export default {
         this.user['username'] = loginData.account.username;
         this.user['accountId'] = loginData.account.homeAccountId;
         this.user['sid'] = loginData.idTokenClaims.sid;
+        this.user['email'] = loginData.idTokenClaims.email;
+        console.log("email claim: "+ this.user.email);
         this.loggedInUser = this.user['username'];
         this.$emit('refresh', this.user.accountId, this.selectedDate, this.selectedMeas);
       },
