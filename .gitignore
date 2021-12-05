@@ -10,4 +10,6 @@ app1/
 scripts/func_app_error_log.txt
 scripts/spa_token_error_log.txt
 tmp.txt
-.env*
+.env*.local
+tmp.txt
+yarn-error.log

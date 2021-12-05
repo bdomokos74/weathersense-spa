@@ -2,11 +2,11 @@
 
 This component reads the data from Azure Blob, and displays it in a vue.js SPA
 
-![UI Screenshot](doc/screenshot-ui.png?raw=true "screenshot") 
+![UI Screenshot](doc/screenshot-ui.png?raw=true "screenshot")
 
 System architecture:
 
-![Weathersense Components](doc/weathersense-components.png?raw=true "Weathersense Components") 
+![Weathersense Components](doc/weathersense-components.png?raw=true "Weathersense Components")
 
 ### Other components
 * https://github.com/bdomokos74/weathersense-device - send sensor data from Arduino, RasPi, ... to Azure IoT HUB
@@ -18,18 +18,11 @@ System architecture:
 1. Send invite in Azure Active directory
 2. Add user to the WeatherSenseReader Azure AD Group
 
-### Bundler
-
-https://v2.parceljs.org
-
 ### How to run locally
 
 ```
-yarn parcel index.html
+yarn serve
 ```
-
-Or from VS Code: F5 - Live server.
-
 
 ### How to build/package
 
@@ -46,13 +39,13 @@ CLIENT_ID=...
 REDIRECT_URI=http://localhost:1234
 ```
 
-Create corresponding .env.test and .env.prod files also.
+Create corresponding .env.test and .env.production files also.
 
 Build for test env or prod env:
 
 ```
-NODE_ENV=test yarn parcel build index.html -d app
-NODE_ENV=prod yarn parcel build index.html -d app
+yarn build --mode test
+yarn build --mode production
 ```
 
 ### How to deploy the SPA
@@ -62,7 +55,7 @@ NODE_ENV=prod yarn parcel build index.html -d app
 az storage blob upload-batch -s app -d '$web' --account-name $AZURE_GUI_STORAGE_ACCOUNT
 
 # for test:
-az storage blob upload-batch -s app -d '$web' --account-name $AZURE_GUI_TEST_STORAGE_ACCOUNT
+az storage blob upload-batch -s dist -d '$web' --account-name $AZURE_GUI_TEST_STORAGE_ACCOUNT
 ```
 
 

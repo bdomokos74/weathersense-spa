@@ -22,8 +22,8 @@ az storage blob service-properties update \
     --index-document app/index.html
 
 # deploy the SPA page
-parcel build index.html -d app
-az storage blob upload-batch -s app -d '$web' --account-name $AZURE_STORAGE_ACCOUNT
+yarn build --mode production
+az storage blob upload-batch -s dist -d '$web' --account-name $AZURE_STORAGE_ACCOUNT
 
 end=`date -v+30M '+%Y-%m-%dT%H:%MZ'`
 sas1=`az storage account generate-sas --permissions cdlruwap --account-name weathersenseblob --services b --resource-types sco --expiry $end -o tsv`

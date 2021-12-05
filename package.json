@@ -1,42 +1,75 @@
 {
-  "name": "weathersense-spa",
-  "version": "1.0.0",
-  "description": "",
-  
+  "name": "weathersense-vue",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test": "yarn jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "browserslist": [
-    "last 1 Edge version",
-    "last 1 Chrome version",
-    "last 1 Firefox version"
-  ],
   "dependencies": {
-    "@azure/msal-browser": "^2.7.0",
-    "@azure/storage-blob": "^12.3.0",
+    "@azure/msal-browser": "^2.19.0",
+    "@azure/storage-blob": "^12.8.0",
+    "axios": "^0.24.0",
     "bootstrap": "^4.6.0",
+    "core-js": "^3.6.5",
+    "css-loader": "^5.2.7",
     "d3": "^6.2.0",
-    "dotenv": "10.0.0",
+    "dotenv": "^10.0.0",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
+    "package.json": "^2.0.1",
     "pc-bootstrap4-datetimepicker": "^4.17.51",
+    "pkg.json": "^2.0.1",
     "popper.js": "^1.16.1",
-    "vue": "^3.2.11",
+    "vue": "^3.2.22",
+    "vue-loader-v16": "^16.0.0-beta.5.4",
     "vue3-datepicker": "*"
   },
-  "alias": {
-    "vue": "./node_modules/vue/dist/vue.esm-bundler.js"
-  },
   "devDependencies": {
-    "@parcel/transformer-vue": "^2.0.0-rc.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.9.0",
+    "@types/jest": "^25.2.1",
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-eslint": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "@vue/compiler-sfc": "^3.0.0-alpha.11",
     "@vue/devtools": "^v6.0.0-beta.15",
-    "cssnano": "^4.1.10",
-    "mocha": "8.2.1",
-    "parcel": "*",
-    "vue-template-compiler": "^2.6.14"
-  }
+    "@vue/test-utils": "^2.0.0-alpha.8",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.2.6",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0",
+    "flush-promises": "^1.0.2",
+    "jest": "^25.2.7",
+    "ts-jest": "^25.3.1",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "vue-jest": "^5.0.0-alpha.1",
+    "vue-loader": "^15.9.8",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^4.6.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
